@@ -52,6 +52,7 @@ void msleep(unsigned int ) ;
 void setCursorVisibility(char );
 void hidecursor(void) ;
 int random();
+int generate_random_number(int min, int max);
 void printPomme();
 void printSnakeHead();
 void printSnakeBody();
@@ -59,7 +60,7 @@ void printStadeElement();
 
 
 
-#endif // MYLIB_H
+#endif //MYLIB_H_INCLUDED
 
 //==================================================
 
