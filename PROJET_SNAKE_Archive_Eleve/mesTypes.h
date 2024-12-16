@@ -8,7 +8,7 @@
 typedef struct {
      int x;
      int y;
-} TYPE_POINT;
+} ST_POINT;
 
 
 //*********************
