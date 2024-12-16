@@ -251,7 +251,7 @@ void setBackgroundColor(int c) {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 
 	GetConsoleScreenBufferInfo(hConsole, &csbi);
-	const DWORD dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
+	const DWORD dwConSize = (long unsigned int)(csbi.dwSize.X) * (long unsigned int)(csbi.dwSize.Y);
 	FillConsoleOutputCharacter(hConsole, (TCHAR)' ', dwConSize, coordScreen, &cCharsWritten);
 
 	GetConsoleScreenBufferInfo(hConsole, &csbi);
@@ -270,7 +270,7 @@ void setBackgroundColor(int c) {
 int random(){
     static int k=0;
     if (k==0){
-            srand(time(NULL));
+            srand((unsigned int)time(NULL));
             k=1;}
 
     return rand();
@@ -286,12 +286,12 @@ void printSnakeHead(){
     printf("%c",FORME_TETE);
 }
 
-/* Affiche un élément du corps du serpent*/
+/* Affiche un ï¿½lï¿½ment du corps du serpent*/
 void printSnakeBody(){
     printf("%c",FORME_CORPS);
 }
 
-/* Affiche un élément du stade */
+/* Affiche un ï¿½lï¿½ment du stade */
 void printStadeElement(){
     printf("%c",FORME_STADE);
 }

@@ -4,17 +4,17 @@
 #include "SP_GESTION_JEU.h"
 
 /*===================================================================================
-/ Nom Sémantique : FONCTION SP_Gestion_Clavier
+/ Nom Sï¿½mantique : FONCTION SP_Gestion_Clavier
 
-/ Sémantique : Gère la détection des évènements clavier sur les touches de direction
+/ Sï¿½mantique : Gï¿½re la dï¿½tection des ï¿½vï¿½nements clavier sur les touches de direction
 
-/ Paramètres :
-/ direction (OUT) - entier : Contient la direction sollicitée par l'utilisateur
+/ Paramï¿½tres :
+/ direction (OUT) - entier : Contient la direction sollicitï¿½e par l'utilisateur
 / DROITE = 0 , GAUCHE = 1 , BAS = 2 , HAUT = 3 et -1 SINON
-/ Pré-condition : AUCUNE
+/ Prï¿½-condition : AUCUNE
 / Post conditions : la direction vaut -1,0,1,2,3
 / ====================================================================================
-/ Test : le chiffre renvoyé correspond à la direction appuyée
+/ Test : le chiffre renvoyï¿½ correspond ï¿½ la direction appuyï¿½e
 / ====================================================================================*/
 int SP_Gestion_Clavier(){
     char direction ;
@@ -22,7 +22,7 @@ int SP_Gestion_Clavier(){
 
     if ( kbhit()) {
 
-    direction = getkey() ;
+    direction = (char)getkey() ;
 
     switch (direction){
 
