@@ -2,6 +2,7 @@
 #define MESTYPES_H_INCLUDED
 
 
+
 //*********************
 // structure POINT (x,y)
 //*********************
@@ -38,6 +39,7 @@ typedef struct {
    ST_POINT pos[30];
    ST_POINT tete;
    ST_POINT old_tail;
+   ST_POINT old_head;
    int direction;
    int taille;
 
@@ -50,5 +52,6 @@ typedef struct {
    ST_POINT pos;
 } TYPE_POMME;
 
-
 #endif // MESTYPES_H_INCLUDED
+
+

@@ -269,12 +269,18 @@ void setBackgroundColor(int c) {
 /* fonction renvoie nombre aleatoire */
 int random(){
     static int k=0;
-    if (k==0){
-            srand((unsigned int)time(NULL));
-            k=1;}
-
+    if (k==0)
+	{
+		srand((unsigned int)time(NULL));
+		k=1;
+	}
     return rand();
 }
+
+int generate_random_number(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
+
 
 /* Affiche une pomme */
 void printPomme(){
