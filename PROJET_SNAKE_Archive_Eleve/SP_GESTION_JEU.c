@@ -26,7 +26,7 @@ int SP_Gestion_Clavier(time_t buffer_time_ms) {
     // Wait for buffer time before taking the last inputted key
     while (exit_flag = FALSE )
         {
-        if ((clock() - start_time) > (buffer_time_ms * CLOCKS_PER_SEC) / 1000))
+        if ((clock() - start_time) > (buffer_time_ms * CLOCKS_PER_SEC) / 1000)
             exit_flag = TRUE;
         if (kbhit()) {
             printf("key pressed\n");
