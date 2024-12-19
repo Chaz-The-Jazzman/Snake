@@ -4,8 +4,6 @@
 
 int SP_Gestion_Clavier();
 
-void affichage_Jeu(TYPE_POMME pomme, TYPE_SNAKE snake, TYPE_PARAM_JEU param);
-
 void calc_NextSnekPos(TYPE_SNAKE *snek);
 
 void placer_pomme(TYPE_POMME *pom, int largeur, int hauteur);
