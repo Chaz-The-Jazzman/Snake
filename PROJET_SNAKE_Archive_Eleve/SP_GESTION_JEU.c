@@ -16,7 +16,28 @@
 / ====================================================================================
 / Test : le chiffre renvoy� correspond � la direction appuy�e
 / ====================================================================================*/
-int SP_Gestion_Clavier(time_t buffer_time_ms) {
+int SP_Gestion_Clavier(){
+    char direction ;
+    int dir;
+
+    if ( kbhit()) {
+
+    direction = getkey() ;
+
+    switch (direction){
+
+        case KEY_UP : dir = HAUT ; break;
+        case KEY_DOWN : dir = BAS ; break;
+        case KEY_LEFT : dir = GAUCHE ; break;
+        case KEY_RIGHT: dir= DROITE ; break;
+        }
+    }
+    else {dir=-1;}
+    return dir;
+}
+
+int SP_Gestion_Clavier_with_buffer_time(time_t buffer_time_ms) 
+{
     char direction;
     int dir = -1;  // Default direction if no key is pressed
     boolean exit_flag = FALSE;
@@ -35,7 +56,8 @@ int SP_Gestion_Clavier(time_t buffer_time_ms) {
     }
 
     // After buffer time, process the last key pressed
-    switch (direction) {
+    switch (direction) 
+    {
         case KEY_UP:
             dir = HAUT;
             break;
@@ -65,7 +87,8 @@ void calc_NextSnekPos(TYPE_SNAKE *snek)
     snek->old_tail = snek->pos[snek->taille-1];   
 
     //move head position as function of direction
-    switch (snek->direction) {
+    switch (snek->direction) 
+    {
         case GAUCHE:
             snek->tete.x -= 1;
             break;
@@ -81,19 +104,20 @@ void calc_NextSnekPos(TYPE_SNAKE *snek)
         default:
             //problem
             break;
-
-        int i = 0;
-        //loop through all snake positions
-        for (i; i < snek->taille-1; i++)
-        {
-            //replace, from tail to neck, positions of each snake part
-            snek->pos[snek->taille-i-1] = snek->pos[snek->taille-i-2];
-            //for ex, start with end of tail pos[4], replace with coordinates of pos[3], etc etc up to pos[1]
-        }
-        //replace pos[0] with old snake head
-        snek->pos[0] = snek->old_head;
-        
     }
+
+    int i = 0;
+    //loop through all snake positions
+    for (i; i < snek->taille-1; i++)
+    {
+        //replace, from tail to neck, positions of each snake part
+        snek->pos[snek->taille-i-1] = snek->pos[snek->taille-i-2];
+        //for ex, start with end of tail pos[4], replace with coordinates of pos[3], etc etc up to pos[1]
+    }
+    //replace pos[0] with old snake head
+    snek->pos[0] = snek->old_head;
+        
+
 
 }
 
@@ -122,7 +146,7 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
         return TRUE;
     }
 
-    //loop over all snake positions
+    //loop over all snake positions and check for collision
     size_t i = 0;
     for (i; i <= snek.taille; i++)
     {
