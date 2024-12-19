@@ -251,7 +251,7 @@ void setBackgroundColor(int c) {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 
 	GetConsoleScreenBufferInfo(hConsole, &csbi);
-	const DWORD dwConSize = (long unsigned int)(csbi.dwSize.X) * (long unsigned int)(csbi.dwSize.Y);
+	const DWORD dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
 	FillConsoleOutputCharacter(hConsole, (TCHAR)' ', dwConSize, coordScreen, &cCharsWritten);
 
 	GetConsoleScreenBufferInfo(hConsole, &csbi);
@@ -269,19 +269,15 @@ void setBackgroundColor(int c) {
 /* fonction renvoie nombre aleatoire */
 int random(){
     static int k=0;
-    if (k==0)
-	{
-		srand((unsigned int)time(NULL));
-		k=1;
-	}
+    if (k==0){
+            srand(time(NULL));
+            k=1;}
+
     return rand();
 }
-
 int generate_random_number(int min, int max) {
     return min + rand() % (max - min + 1);
 }
-
-
 /* Affiche une pomme */
 void printPomme(){
     printf("%c",FORME_POMME);
@@ -292,12 +288,12 @@ void printSnakeHead(){
     printf("%c",FORME_TETE);
 }
 
-/* Affiche un ï¿½lï¿½ment du corps du serpent*/
+/* Affiche un élément du corps du serpent*/
 void printSnakeBody(){
     printf("%c",FORME_CORPS);
 }
 
-/* Affiche un ï¿½lï¿½ment du stade */
+/* Affiche un élément du stade */
 void printStadeElement(){
     printf("%c",FORME_STADE);
 }
