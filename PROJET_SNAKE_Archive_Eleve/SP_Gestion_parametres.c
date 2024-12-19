@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include "mesTypes.h"
 #include "myLib.h"
-void init_param(TYPE_PARAM_JEU *param_jeu, TYPE_POMME* pomme, TYPE_SNAKE* snake)
+void init_global(TYPE_PARAM_JEU *param_jeu)
 {
-
      param_jeu->couleur_stade = 10;
      param_jeu->couleur_snake = 5;
      param_jeu->difficulte = 1;
-     param_jeu->H_stade = 30;
-     param_jeu->L_stade = 30;
+     param_jeu->H_stade = 25;
+     param_jeu->L_stade = 40;
+}
+
+void init_jeu(TYPE_POMME* pomme, TYPE_SNAKE* snake)
+{
      pomme->pos.x = 12;
      pomme->pos.y = 12;
+     snake->direction = DROITE;
      snake->taille = 2;
      snake->pos[0].x = 9;
      snake->pos[0].y = 10;

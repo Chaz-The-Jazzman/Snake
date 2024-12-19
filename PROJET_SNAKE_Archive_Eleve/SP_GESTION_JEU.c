@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <time.h>
 #include "myLib.h"
@@ -6,17 +5,19 @@
 #include "menu.h"
 #include "SP_GESTION_JEU.h"
 #include "SP_Gestion_parametres.h"
-
+#include "SP_Affichage.h"
 /*===================================================================================
-/ Nom Sémantique : FONCTION SP_Gestion_Clavier
-/ Sémantique : Gère la détection des événements clavier sur les touches de direction
-/ Paramètres :
-/ direction (OUT) - entier : Contient la direction sollicitée par l'utilisateur
+/ Nom S�mantique : FONCTION SP_Gestion_Clavier
+
+/ S�mantique : G�re la d�tection des �v�nements clavier sur les touches de direction
+
+/ Param�tres :
+/ direction (OUT) - entier : Contient la direction sollicit�e par l'utilisateur
 / DROITE = 0 , GAUCHE = 1 , BAS = 2 , HAUT = 3 et -1 SINON
-/ Pré-condition : AUCUNE
+/ Pr�-condition : AUCUNE
 / Post conditions : la direction vaut -1,0,1,2,3
 / ====================================================================================
-/ Test : le chiffre renvoyé correspond à la direction appuyée
+/ Test : le chiffre renvoy� correspond � la direction appuy�e
 / ====================================================================================*/
 int SP_Gestion_Clavier(){
     char direction ;
@@ -154,7 +155,7 @@ void test_pomme(TYPE_SNAKE *snek, TYPE_POMME * pom, TYPE_PARAM_JEU param_Jeu)
  * @param largeur - Largeur du stade.
  * @param hauteur - Hauteur du stade.
  */
-void placer_pomme(TYPE_POMME *pom, int largeur, int hauteur)
+void placer_pomme(TYPE_POMME *pom, int hauteur, int largeur)
 {
     pom->pos.x = generate_random_number(2,largeur);
     pom->pos.y = generate_random_number(2, hauteur);
@@ -195,55 +196,58 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
  */
 void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 {
+    int score = 0;
+    system("cls");
+    Affichage_init_score();
+
     //Initialisation des flags de sortie
     boolean quit_flag = FALSE;
     boolean fin_jeu = FALSE;
 
     int direction = -1;
 
-    //initialisation des structures
+    //initialisation du jeu
     TYPE_SNAKE snek;
     TYPE_POMME pom;
     TYPE_JOUEUR player;
 
-    //conditions de depart
-    init_param(&param_Jeu,&pom, &snek);
+    init_jeu(&pom, &snek);
+    affichage_stade(param_Jeu);
     placer_pomme(&pom, param_Jeu.H_stade, param_Jeu.L_stade);
 
-    //boucle de jeu
-    while (!quit_flag || !fin_jeu )
+    while (!quit_flag && !fin_jeu )
     {
-        //affichage du jeu
-        //affichage_Jeu(pom, snek, param_Jeu);
-
+        Affichage_score(snek.taille, &score);
+        affichage_Jeu(snek, param_Jeu);
+        affichage_pomme(pom);
+        
+        //snek.direction = SP_Gestion_Clavier(100);
         //gestion du clavier
-        direction = SP_Gestion_Clavier_with_buffer_time((1/param_Jeu.difficulte)*500);
+        direction = SP_Gestion_Clavier_with_buffer_time((time_t)((1/(float)param_Jeu.difficulte)*500));
         if (direction != -1)
         {
             snek.direction = direction;
         }
 
-        //calcul de la prochaine position du snake
         calc_NextSnekPos(&snek);
 
-        //test de collision avec la pomme
         test_pomme(&snek, &pom, param_Jeu);
-
-        //test de fin de jeu
         fin_jeu = test_fin_jeu(snek, param_Jeu);
+        
+
     }
 
     if (quit_flag)
     {
-        // Code to handle quit flag
+        //jeu abandonn�
     }
     else
     {
+        printgameover();
         //enregistrer score
         player.score = snek.taille;
-        system("clc");
         //afficher score
-        printf("Votre score est de %d\n", player.score);
+        printf("\n\nVotre score est de %d\n", player.score);
         //enregistrer nom
         printf("Entrez votre nom: ");
         scanf("%s", player.nom);
@@ -269,3 +273,22 @@ void saveplayerscore(TYPE_JOUEUR player)
     }
 }
 
+void printgameover()
+{
+    gotoxy(0,0);
+    system("cls");
+    ShowCursor(TRUE);
+    setColor(RED);
+    char ligne[256];
+    FILE *f;
+    f = fopen("Game_Over_Art.txt", "r");
+    if (f == NULL) {
+        printf("Erreur lors de l'ouverture du fichier.\n");
+    }
+    while (fgets(ligne, sizeof(ligne), f) != NULL) {
+        printf("%s", ligne);
+    }
+    printf("\n\n");
+    system("pause");
+    fclose(f);
+}

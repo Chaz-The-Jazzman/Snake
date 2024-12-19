@@ -4,9 +4,11 @@
 
 int SP_Gestion_Clavier();
 
+void printgameover();
+
 void calc_NextSnekPos(TYPE_SNAKE *snek);
 
-void placer_pomme(TYPE_POMME *pom, int largeur, int hauteur);
+void placer_pomme(TYPE_POMME *pom, int hauteur, int largeur);
 
 void test_pomme(TYPE_SNAKE *snek, TYPE_POMME * pom, TYPE_PARAM_JEU param_Jeu);
 

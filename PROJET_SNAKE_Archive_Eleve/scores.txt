@@ -1,0 +1,5 @@
+Nom: Charlie  Score: 2
+Nom: Chaz  Score: 2
+Nom: end  Score: 2
+Nom: nom  Score: 3
+Nom: dooom  Score: 2
