@@ -8,7 +8,6 @@ int main()
 {
 FILE *f;
 char ligne[256];
-int i,j;
 
     f = fopen("Menu_ART.txt", "r");
     if (f == NULL) {

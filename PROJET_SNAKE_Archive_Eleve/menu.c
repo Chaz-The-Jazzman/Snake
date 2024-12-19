@@ -10,12 +10,11 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
     TYPE_PARAM_JEU* param = param_jeu;
     int choix = 0;
     int choix2 = 0;
-    int i = 0;
     system("cls");
     printf("Vous pouvez modifier les valeurs de parametres suivantes : \n\r");
     printf("1_Couleur stade : ");
     colorparam(param_jeu->couleur_stade, 1);
-    printf("2_Couleur snake : ", param_jeu->couleur_snake);
+    printf("2_Couleur snake : ");
     colorparam(param_jeu->couleur_snake, 1);
     printf("3_Difficulte : %d\n\r", param_jeu->difficulte);
     printf("4_Hauteur stade : %d\n\r", param_jeu->H_stade);
@@ -24,7 +23,7 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
     printf("Entrez votre choix de modification : \n\r");
 
     if (scanf("%d", &choix) != 1) {
-            printf("Entrée invalide. Veuillez réessayer.\n\n");
+            printf("Entrï¿½e invalide. Veuillez rï¿½essayer.\n\n");
             while (getchar() != '\n');
             system("cls");
         }
@@ -38,7 +37,7 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
                     colorall();
                     printf("Entrez votre choix de modification : \n\r");
                     if (scanf("%d", &choix2) != 1) {
-                        printf("Entrée invalide. Veuillez réessayer.\n\n");
+                        printf("Entrï¿½e invalide. Veuillez rï¿½essayer.\n\n");
                         while (getchar() != '\n');
                         system("cls");
                     }
@@ -53,7 +52,7 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
                     colorall();
                     printf("Entrez votre choix de modification : \n\r");
                     if (scanf("%d", &choix2) != 1) {
-                        printf("Entrée invalide. Veuillez réessayer.\n\n");
+                        printf("Entrï¿½e invalide. Veuillez rï¿½essayer.\n\n");
                         while (getchar() != '\n');
                         system("cls");
                     }
@@ -66,7 +65,7 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
                     printf("Valeur possible : 1_EASY, 2_MEDIUM, 3_HARD");
                     printf("Entrez votre choix de modification : \n\r");
                     if (scanf("%d", &choix2) != 1) {
-                        printf("Entrée invalide. Veuillez réessayer.\n\n");
+                        printf("Entrï¿½e invalide. Veuillez rï¿½essayer.\n\n");
                         while (getchar() != '\n');
                         system("cls");
                     }
@@ -78,7 +77,7 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
                     printf("Valeur actuelle : %d\n\r", param_jeu->H_stade);
                     printf("Entrez votre choix de modification : \n\r");
                     if (scanf("%d", &choix2) != 1) {
-                        printf("Entrée invalide. Veuillez réessayer.\n\n");
+                        printf("Entrï¿½e invalide. Veuillez rï¿½essayer.\n\n");
                         while (getchar() != '\n');
                         system("cls");
                     }
@@ -90,7 +89,7 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
                     printf("Valeur actuelle : %d\n\r",param_jeu->L_stade);
                     printf("Entrez votre choix de modification : \n\r");
                     if (scanf("%d", &choix2) != 1) {
-                        printf("Entrée invalide. Veuillez réessayer.\n\n");
+                        printf("Entrï¿½e invalide. Veuillez rï¿½essayer.\n\n");
                         while (getchar() != '\n');
                         system("cls");
                     }
@@ -102,7 +101,7 @@ void menu_parametres(TYPE_PARAM_JEU* param_jeu)
                     menu_principale();
                     break;
                 default:
-                    printf("Choix non valide. Veuillez réessayer.\n");
+                    printf("Choix non valide. Veuillez rï¿½essayer.\n");
                     system("cls");
                     menu_parametres(param);
                     break;
@@ -152,7 +151,7 @@ void menu_principale()
                     exit(0);
                     break;
                 default:
-                    printf("Choix non valide. Veuillez réessayer.\n");
+                    printf("Choix non valide. Veuillez rï¿½essayer.\n");
                     system("cls");
                     menu_principale();
                     break;

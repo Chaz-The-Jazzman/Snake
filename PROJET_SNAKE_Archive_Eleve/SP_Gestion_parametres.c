@@ -20,7 +20,7 @@ void init_param(TYPE_PARAM_JEU *param_jeu, TYPE_POMME* pomme, TYPE_SNAKE* snake)
      snake->tete.y = 10;
 }
 
-int colorparam(int color, int ligne)
+void colorparam(int color, int ligne)
 {
     if(color>=0 && color<16)
     {
@@ -34,7 +34,7 @@ int colorparam(int color, int ligne)
     }
 }
 
-int colorall()
+void colorall()
 {
     int i;
     for(i=0;i<16;i++)

@@ -6,17 +6,17 @@
 #include "SP_GESTION_JEU.h"
 #include "SP_Gestion_parametres.h"
 /*===================================================================================
-/ Nom Sémantique : FONCTION SP_Gestion_Clavier
+/ Nom Sï¿½mantique : FONCTION SP_Gestion_Clavier
 
-/ Sémantique : Gère la détection des évènements clavier sur les touches de direction
+/ Sï¿½mantique : Gï¿½re la dï¿½tection des ï¿½vï¿½nements clavier sur les touches de direction
 
-/ Paramètres :
-/ direction (OUT) - entier : Contient la direction sollicitée par l'utilisateur
+/ Paramï¿½tres :
+/ direction (OUT) - entier : Contient la direction sollicitï¿½e par l'utilisateur
 / DROITE = 0 , GAUCHE = 1 , BAS = 2 , HAUT = 3 et -1 SINON
-/ Pré-condition : AUCUNE
+/ Prï¿½-condition : AUCUNE
 / Post conditions : la direction vaut -1,0,1,2,3
 / ====================================================================================
-/ Test : le chiffre renvoyé correspond à la direction appuyée
+/ Test : le chiffre renvoyï¿½ correspond ï¿½ la direction appuyï¿½e
 / ====================================================================================*/
 int SP_Gestion_Clavier(){
     char direction ;
@@ -24,7 +24,7 @@ int SP_Gestion_Clavier(){
 
     if ( kbhit()) {
 
-    direction = getkey() ;
+    direction = (char)getkey() ;
 
     switch (direction){
 
@@ -115,7 +115,6 @@ int SP_Gestion_Clavier_with_buffer_time(time_t buffer_time_ms)
     return dir;  // Return the final direction
 }
 
-
 void calc_NextSnekPos(TYPE_SNAKE *snek)
 {
     //save new old head
@@ -145,7 +144,7 @@ void calc_NextSnekPos(TYPE_SNAKE *snek)
 
     int i = 0;
     //loop through all snake positions
-    for (i; i < snek->taille-1; i++)
+    for (i = 0; i < snek->taille-1; i++)
     {
         //replace, from tail to neck, positions of each snake part
         snek->pos[snek->taille-i-1] = snek->pos[snek->taille-i-2];
@@ -184,8 +183,8 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
     }
 
     //loop over all snake positions and check for collision
-    size_t i = 0;
-    for (i; i <= snek.taille; i++)
+    int i;
+    for(i=0; i <= snek.taille; i++)
     {
         //if a snake body position is same as head position, return true (meaning end of game is logic true)
         if( (snek.tete.x) == (snek.pos[i].x) &&  (snek.tete.y) == (snek.pos[i].y) )
@@ -196,7 +195,6 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
     return FALSE;
 }
 
-
 void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 {
     //Initialisation des flags de sortie
@@ -205,58 +203,66 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 
     int direction = -1;
 
-    //initialisation du jeu
+    //initialisation des structures
     TYPE_SNAKE snek;
     TYPE_POMME pom;
     TYPE_JOUEUR player;
 
+    //conditions de depart
     init_param(&param_Jeu,&pom, &snek);
-
     placer_pomme(&pom, param_Jeu.H_stade, param_Jeu.L_stade);
 
 
+    //boucle de jeu
     while (!quit_flag || !fin_jeu )
     {
+        //affichage du jeu
         affichage_Jeu(pom, snek, param_Jeu);
-        switch (param_Jeu.difficulte)
-        {
-            case 1:
-                direction = SP_Gestion_Clavier_with_buffer_time(750);
-                break;
-            case 2:
-                direction = SP_Gestion_Clavier_with_buffer_time(500);
-                break;
-            case 3:
-                direction = SP_Gestion_Clavier_with_buffer_time(250);
-                break;
-            default:
-                direction = SP_Gestion_Clavier_with_buffer_time(1000);
-                break;
-        }
+
+        //gestion du clavier
+        direction = SP_Gestion_Clavier_with_buffer_time((1/param_Jeu.difficulte)*500);
         if (direction != -1)
         {
             snek.direction = direction;
         }
 
-        //snek.direction = SP_Gestion_Clavier(100);
-
+        //calcul de la prochaine position du snake
         calc_NextSnekPos(&snek);
 
+        //test de collision avec la pomme
         test_pomme(&snek, &pom, param_Jeu);
-        fin_jeu = test_fin_jeu(snek, param_Jeu);
-        //Gestion Jeu
 
+        //test de fin de jeu
+        fin_jeu = test_fin_jeu(snek, param_Jeu);
     }
 
+    
     if (quit_flag)
     {
-        //jeu abandonné
+        
     }
     else
     {
         //enregistrer score
+        player.score = snek.taille;
+        system("clc");
+        //afficher score
+        printf("Votre score est de %d\n", player.score);
+        //enregistrer nom
+        printf("Entrez votre nom: ");
+        scanf("%s", player.nom);
+        //ecrire score dans fichier scores.txt
+        saveplayerscore(player);
     }
+}
 
-
-
+void saveplayerscore(TYPE_JOUEUR player)
+{
+    FILE *score_file = fopen("scores.txt", "a");
+    if (score_file != NULL) {
+        fprintf(score_file, "Score: %d\n", player.score);
+        fclose(score_file);
+    } else {
+        printf("Erreur: Impossible d'ouvrir le fichier des scores.\n");
+    }
 }

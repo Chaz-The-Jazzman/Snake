@@ -276,8 +276,9 @@ int random(){
 	}
     return rand();
 }
+
 int generate_random_number(int min, int max) {
-    return min + rand() % (max - min + 1);
+    return min + random() % (max - min + 1);
 }
 
 
