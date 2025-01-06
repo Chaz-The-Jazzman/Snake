@@ -1,3 +1,5 @@
 Nom: THEO  Score: 6
 Nom: Th‚o  Score: 8
 Nom: Th‚o  Score: 30
+Nom: Chaz  Score: 30
+Nom: Charlie  Score: 60

@@ -7,17 +7,17 @@
 #include "SP_Gestion_parametres.h"
 #include "SP_Affichage.h"
 /*===================================================================================
-/ Nom Sémantique : FONCTION SP_Gestion_Clavier
+/ Nom Sï¿½mantique : FONCTION SP_Gestion_Clavier
 
-/ Sémantique : Gère la détection des évènements clavier sur les touches de direction
+/ Sï¿½mantique : Gï¿½re la dï¿½tection des ï¿½vï¿½nements clavier sur les touches de direction
 
-/ Paramètres :
-/ direction (OUT) - entier : Contient la direction sollicitée par l'utilisateur
+/ Paramï¿½tres :
+/ direction (OUT) - entier : Contient la direction sollicitï¿½e par l'utilisateur
 / DROITE = 0 , GAUCHE = 1 , BAS = 2 , HAUT = 3 et -1 SINON
-/ Pré-condition : AUCUNE
+/ Prï¿½-condition : AUCUNE
 / Post conditions : la direction vaut -1,0,1,2,3
 / ====================================================================================
-/ Test : le chiffre renvoyé correspond à la direction appuyée
+/ Test : le chiffre renvoyï¿½ correspond ï¿½ la direction appuyï¿½e
 / ====================================================================================*/
 int SP_Gestion_Clavier(){
     char direction ;
@@ -199,21 +199,7 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
         }
         affichage_Jeu(snek, param_Jeu);
 
-        switch (param_Jeu.difficulte)
-        {
-            case 1:
-                direction = SP_Gestion_Clavier_with_buffer_time(300);
-                break;
-            case 2:
-                direction = SP_Gestion_Clavier_with_buffer_time(200);
-                break;
-            case 3:
-                direction = SP_Gestion_Clavier_with_buffer_time(100);
-                break;
-            default:
-                direction = SP_Gestion_Clavier_with_buffer_time(1000);
-                break;
-        }
+        direction = SP_Gestion_Clavier_with_buffer_time((time_t)((1/(float)param_Jeu.difficulte)*500));
         if (direction != -1)
         {
             snek.direction = direction;
@@ -230,7 +216,7 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 
     if (quit_flag)
     {
-        //jeu abandonné
+        //jeu abandonnï¿½
     }
     else
     {
