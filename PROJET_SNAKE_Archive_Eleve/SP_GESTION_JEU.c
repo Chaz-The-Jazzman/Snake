@@ -273,6 +273,23 @@ void saveplayerscore(TYPE_JOUEUR player)
     }
 }
 
+void printplayerscores()
+{
+    FILE *score_file = fopen("scores.txt", "r");
+    if (score_file != NULL) 
+    {
+        char line[256];
+        while (fgets(line, sizeof(line), score_file) != NULL) 
+        {
+            printf("%s", line);
+        }
+        fclose(score_file);
+    } else 
+    {
+        printf("Erreur: Impossible d'ouvrir le fichier des scores.\n");
+    }
+}
+
 void printgameover()
 {
     gotoxy(0,0);
