@@ -48,9 +48,17 @@ typedef struct {
 //******************
 // DONNEES POMME
 //******************
- typedef struct {
+typedef struct {
    ST_POINT pos;
 } TYPE_POMME;
+
+typedef struct {
+     int is_active;
+     int has_been_eaten;
+     ST_POINT pos;
+     int speed_mod;
+} TYPE_SPEED_APPLE;
+
 
 
 #endif // MESTYPES_H_INCLUDED

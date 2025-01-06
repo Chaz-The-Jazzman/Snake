@@ -9,3 +9,11 @@ Nom: ex  Score: 0
 Nom: ZU  Score: 30
 Nom: chaz  Score: 270
 Nom: chae  Score: 60
+Nom: chz  Score: 330
+Nom: Nul  Score: 30
+Nom: Charliz  Score: 810
+Nom: chaz  Score: 90
+Nom: chaz  Score: 30
+Nom: dsd  Score: 390
+Nom: chaz  Score: 60
+Nom: 123  Score: 480

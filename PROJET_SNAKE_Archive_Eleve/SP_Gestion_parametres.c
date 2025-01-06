@@ -10,10 +10,13 @@ void init_global(TYPE_PARAM_JEU *param_jeu)
      param_jeu->L_stade = 80;
 }
 
-void init_jeu(TYPE_POMME* pomme, TYPE_SNAKE* snake)
+void init_jeu(TYPE_POMME* pomme, TYPE_SNAKE* snake, TYPE_SPEED_APPLE* speed_apple)
 {
+    //init pomme
      pomme->pos.x = 12;
      pomme->pos.y = 12;
+
+     //init snake
      snake->direction = DROITE;
      snake->taille = 2;
      snake->oldtaille = 2;
@@ -23,6 +26,9 @@ void init_jeu(TYPE_POMME* pomme, TYPE_SNAKE* snake)
      snake->pos[1].y = 10;
      snake->tete.x = 10;
      snake->tete.y = 10;
+     
+    //init speed apple
+     speed_apple->is_active = FALSE;
 }
 void largeur_stade(int pos)
 {

@@ -2,6 +2,13 @@
 #include "mesTypes.h"
 #include "myLib.h"
 
+void affichage(TYPE_PARAM_JEU param, TYPE_SNAKE snake, TYPE_POMME pomme, TYPE_SPEED_APPLE speed_apple)
+{
+    affichage_Jeu(snake, param);
+    affichage_pomme(pomme, param);
+    affichage_speed_apple(speed_apple, param);
+}
+
 void affichage_stade(TYPE_PARAM_JEU param)
 {
     int x=1;
@@ -49,9 +56,6 @@ void affichage_Jeu(TYPE_SNAKE snake, TYPE_PARAM_JEU param)
 
     gotoxy(snake.old_tail.x, snake.old_tail.y);
     printf(" ");
-
-
-
 }
 
 void affichage_pomme(TYPE_POMME pomme,TYPE_PARAM_JEU param)
@@ -60,6 +64,19 @@ void affichage_pomme(TYPE_POMME pomme,TYPE_PARAM_JEU param)
     gotoxy(pomme.pos.x, pomme.pos.y);
     printPomme();
     setBackgroundColor(BLACK);
+}
+
+void affichage_speed_apple(TYPE_SPEED_APPLE speed_apple, TYPE_PARAM_JEU param)
+{
+    if(speed_apple.is_active)
+    {
+    setBackgroundColor(param.couleur_stade);
+    gotoxy(speed_apple.pos.x, speed_apple.pos.y);
+    setBackgroundColor(YELLOW);
+    setColor(BLACK);
+    printf("%c",157);
+    setBackgroundColor(BLACK);
+    }
 }
 
 void Affichage_init_score(TYPE_PARAM_JEU param)

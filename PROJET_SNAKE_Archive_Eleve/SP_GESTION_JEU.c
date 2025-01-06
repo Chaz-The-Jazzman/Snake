@@ -26,6 +26,7 @@ int SP_Gestion_Clavier(){
     if ( kbhit()) {
 
     direction = getkey() ;
+    while (kbhit()) getkey();
 
     switch (direction){
 
@@ -86,6 +87,8 @@ void placer_pomme(TYPE_POMME *pom, int hauteur, int largeur)
     pom->pos.y = generate_random_number(2,hauteur-2);
 }
 
+
+
 void test_pomme(TYPE_SNAKE *snek, TYPE_POMME * pom, TYPE_PARAM_JEU param_Jeu)
 {
     if ((snek->tete.x == pom->pos.x) && (snek->tete.y == pom->pos.y))
@@ -98,6 +101,32 @@ void test_pomme(TYPE_SNAKE *snek, TYPE_POMME * pom, TYPE_PARAM_JEU param_Jeu)
 
 
 }
+
+void gestion_speed_apple(int * speed_multiplyer, TYPE_SPEED_APPLE * speed_apple, TYPE_SNAKE * snake, TYPE_PARAM_JEU param_Jeu)
+{
+    //reset has_been_eaten flag if snake has grown
+    if (snake->taille % 5 != 0) speed_apple->has_been_eaten = FALSE;
+
+    //if snake has grown and speed apple is not active, activate speed apple at random position
+    if (snake->taille % 5 == 0 && !speed_apple->is_active && !speed_apple->has_been_eaten)
+    {
+        speed_apple->is_active = TRUE;
+        speed_apple->has_been_eaten = FALSE;
+        speed_apple->pos.x = generate_random_number(2, param_Jeu.L_stade-2);
+        speed_apple->pos.y = generate_random_number(2, param_Jeu.H_stade-2);
+        speed_apple->speed_mod = 50 * generate_random_number(1,4);
+    }
+
+    //if snake has eaten speed apple, set speed multiplyer to speed mod and disable speed apple
+    if (speed_apple->pos.x == snake->tete.x && speed_apple->pos.y == snake->tete.y && speed_apple->is_active)
+    {
+        *speed_multiplyer = speed_apple->speed_mod;
+        speed_apple->is_active = FALSE;
+        speed_apple->has_been_eaten = TRUE;
+    }
+
+}
+
 
 
 
@@ -125,6 +154,8 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
 
 void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 {
+    int speed_multiplyer = 100;
+
     int score = 0;
     system("cls");
 
@@ -139,14 +170,15 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
     TYPE_SNAKE snek;
     TYPE_POMME pom;
     TYPE_JOUEUR player;
+    TYPE_SPEED_APPLE speed_apple;
 
-    init_jeu(&pom, &snek);
+    init_jeu(&pom, &snek, &speed_apple);
     affichage_stade(param_Jeu);
     setBackgroundColor(16);
     Affichage_init_score(param_Jeu);
     while (!quit_flag && !fin_jeu )
     {
-        affichage_pomme(pom,param_Jeu);
+        affichage(param_Jeu, snek, pom, speed_apple);
         if(snek.taille != snek.oldtaille)
         {
             setBackgroundColor(16);
@@ -155,7 +187,7 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
         }
         affichage_Jeu(snek, param_Jeu);
 
-        msleep((time_t)((1/(float)param_Jeu.difficulte)*200));
+        msleep(speed_multiplyer*2/param_Jeu.difficulte);
         direction = SP_Gestion_Clavier();
         if (direction != -1)
         {
@@ -165,11 +197,15 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
         calc_NextSnekPos(&snek);
 
         test_pomme(&snek, &pom, param_Jeu);
+        gestion_speed_apple(&speed_multiplyer, &speed_apple, &snek, param_Jeu);
         fin_jeu = test_fin_jeu(snek, param_Jeu);
 
         //Gestion Jeu
 
     }
+
+  
+
 
     if (quit_flag)
     {
