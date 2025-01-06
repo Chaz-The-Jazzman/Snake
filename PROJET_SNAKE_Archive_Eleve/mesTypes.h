@@ -41,6 +41,7 @@ typedef struct {
    ST_POINT old_head;
    int direction;
    int taille;
+   int oldtaille;
 
 } TYPE_SNAKE;
 

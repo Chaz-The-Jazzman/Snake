@@ -6,7 +6,6 @@ void affichage_stade(TYPE_PARAM_JEU param)
 {
     int x=1;
     int y=1;
-    setColor(param.couleur_stade);
 
     for(y=1;y<param.H_stade;y++)
     {
@@ -15,22 +14,27 @@ void affichage_stade(TYPE_PARAM_JEU param)
         {
             if(x==1 || x ==param.L_stade-1 || y == 1 || y == param.H_stade-1)
             {
+                setColor(1);
                 printStadeElement();
             }
 
             else
             {
+               setBackgroundColor(param.couleur_stade);
                printf(" ");
             }
 
         }
         printf("\n\r");
     }
+    setBackgroundColor(BLACK);
 
 }
 void affichage_Jeu(TYPE_SNAKE snake, TYPE_PARAM_JEU param)
 {
     int i = 1;
+    setBackgroundColor(param.couleur_stade);
+
     setColor(param.couleur_snake);
 
     for (i=0;i<snake.taille;i++)
@@ -50,25 +54,31 @@ void affichage_Jeu(TYPE_SNAKE snake, TYPE_PARAM_JEU param)
 
 }
 
-void affichage_pomme(TYPE_POMME pomme)
+void affichage_pomme(TYPE_POMME pomme,TYPE_PARAM_JEU param)
 {
+    setBackgroundColor(param.couleur_stade);
     gotoxy(pomme.pos.x, pomme.pos.y);
     printPomme();
+    setBackgroundColor(BLACK);
 }
 
-void Affichage_init_score()
+void Affichage_init_score(TYPE_PARAM_JEU param)
 {
-    printf("**********************\n\r");
-    printf("\t 0 \t\n\r");
-    printf("**********************\n\r");
+
+   gotoxy(param.L_stade + 10,param.H_stade /2);
+   printf("\t**********************\r");
+   gotoxy(param.L_stade + 10,param.H_stade /2 +1);
+   printf("\t\t   0 \t\n\r");
+   gotoxy(param.L_stade + 10,param.H_stade /2 +2);
+   printf("\t**********************\r");
 }
 
-void Affichage_score(int longueur_snake, int *score)
+void Affichage_score(TYPE_PARAM_JEU param, int longueur_snake, int *score)
 {
-    gotoxy(12,2);
+    gotoxy(param.L_stade + 26,param.H_stade /2 +1);
     if(longueur_snake > 2)
     {
-        *score = (*score+1)*30;
+        *score = *score+1*30;
     }
-    printf("\t %d \t\n\r",*score);
+    printf(" %d ",*score);
 }

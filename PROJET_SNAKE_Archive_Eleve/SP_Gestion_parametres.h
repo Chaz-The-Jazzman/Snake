@@ -5,5 +5,7 @@ void init_global(TYPE_PARAM_JEU *param_jeu);
 void init_jeu( TYPE_POMME *pomme, TYPE_SNAKE *snake);
 void colorparam(int color, int ligne);
 void colorall();
-
+void largeur_stade(int a);
+int select_param_ud(int pos);
+int select_param_lr(int pos);
 #endif // SP_GESTION_PARAMETRES_H_INCLUDED

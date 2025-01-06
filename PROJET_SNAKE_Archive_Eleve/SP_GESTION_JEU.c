@@ -7,17 +7,17 @@
 #include "SP_Gestion_parametres.h"
 #include "SP_Affichage.h"
 /*===================================================================================
-/ Nom Sï¿½mantique : FONCTION SP_Gestion_Clavier
+/ Nom Sémantique : FONCTION SP_Gestion_Clavier
 
-/ Sï¿½mantique : Gï¿½re la dï¿½tection des ï¿½vï¿½nements clavier sur les touches de direction
+/ Sémantique : Gère la détection des évènements clavier sur les touches de direction
 
-/ Paramï¿½tres :
-/ direction (OUT) - entier : Contient la direction sollicitï¿½e par l'utilisateur
+/ Paramètres :
+/ direction (OUT) - entier : Contient la direction sollicitée par l'utilisateur
 / DROITE = 0 , GAUCHE = 1 , BAS = 2 , HAUT = 3 et -1 SINON
-/ Prï¿½-condition : AUCUNE
+/ Pré-condition : AUCUNE
 / Post conditions : la direction vaut -1,0,1,2,3
 / ====================================================================================
-/ Test : le chiffre renvoyï¿½ correspond ï¿½ la direction appuyï¿½e
+/ Test : le chiffre renvoyé correspond à la direction appuyée
 / ====================================================================================*/
 int SP_Gestion_Clavier(){
     char direction ;
@@ -25,7 +25,7 @@ int SP_Gestion_Clavier(){
 
     if ( kbhit()) {
 
-    direction = (char)getkey() ;
+    direction = getkey() ;
 
     switch (direction){
 
@@ -39,12 +39,7 @@ int SP_Gestion_Clavier(){
     return dir;
 }
 
-/**
- * @brief GÃ¨re la dÃ©tection des Ã©vÃ©nements clavier avec un temps tampon.
- * 
- * @param buffer_time_ms - Temps tampon en millisecondes.
- * @return int - La direction sollicitÃ©e par l'utilisateur (DROITE = 0, GAUCHE = 1, BAS = 2, HAUT = 3, -1 sinon).
- */
+
 int SP_Gestion_Clavier_with_buffer_time(time_t buffer_time_ms)
 {
     char direction;
@@ -87,11 +82,7 @@ int SP_Gestion_Clavier_with_buffer_time(time_t buffer_time_ms)
     return dir;  // Return the final direction
 }
 
-/**
- * @brief Calcule la prochaine position du serpent.
- * 
- * @param snek - Pointeur vers la structure du serpent.
- */
+
 void calc_NextSnekPos(TYPE_SNAKE *snek)
 {
     //save new old head
@@ -121,7 +112,7 @@ void calc_NextSnekPos(TYPE_SNAKE *snek)
 
     int i = 0;
     //loop through all snake positions
-    for (i = 0; i < snek->taille-1; i++)
+    for (i=0; i < snek->taille-1; i++)
     {
         //replace, from tail to neck, positions of each snake part
         snek->pos[snek->taille-i-1] = snek->pos[snek->taille-i-2];
@@ -129,15 +120,16 @@ void calc_NextSnekPos(TYPE_SNAKE *snek)
     }
     //replace pos[0] with old snake head
     snek->pos[0] = snek->old_head;
+
+
+
+}
+void placer_pomme(TYPE_POMME *pom, int hauteur, int largeur)
+{
+    pom->pos.x = generate_random_number(2,largeur-2);
+    pom->pos.y = generate_random_number(2,hauteur-2);
 }
 
-/**
- * @brief Teste si le serpent a mangÃ© la pomme.
- * 
- * @param snek - Pointeur vers la structure du serpent.
- * @param pom - Pointeur vers la structure de la pomme.
- * @param param_Jeu - Structure des paramÃ¨tres du jeu.
- */
 void test_pomme(TYPE_SNAKE *snek, TYPE_POMME * pom, TYPE_PARAM_JEU param_Jeu)
 {
     if ((snek->tete.x == pom->pos.x) && (snek->tete.y == pom->pos.y))
@@ -145,29 +137,14 @@ void test_pomme(TYPE_SNAKE *snek, TYPE_POMME * pom, TYPE_PARAM_JEU param_Jeu)
         snek->taille += 1;
         snek->pos[snek->taille-1] = snek->old_tail;
         placer_pomme(pom, param_Jeu.H_stade, param_Jeu.L_stade);
+
     }
+
+
 }
 
-/**
- * @brief Place la pomme Ã  une position alÃ©atoire dans le stade.
- * 
- * @param pom - Pointeur vers la structure de la pomme.
- * @param largeur - Largeur du stade.
- * @param hauteur - Hauteur du stade.
- */
-void placer_pomme(TYPE_POMME *pom, int hauteur, int largeur)
-{
-    pom->pos.x = generate_random_number(2,largeur);
-    pom->pos.y = generate_random_number(2, hauteur);
-}
 
-/**
- * @brief Teste si le jeu est terminÃ© (collision avec les murs ou le corps du serpent).
- * 
- * @param snek - Structure du serpent.
- * @param param_Jeu - Structure des paramÃ¨tres du jeu.
- * @return boolean - TRUE si le jeu est terminÃ©, FALSE sinon.
- */
+
 boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
 {
     if ((snek.tete.x <= 1) || (snek.tete.x >= param_Jeu.L_stade) || (snek.tete.y <= 1) || (snek.tete.y >= param_Jeu.H_stade)  )
@@ -177,8 +154,8 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
     }
 
     //loop over all snake positions and check for collision
-    int i;
-    for(i=0; i <= snek.taille; i++)
+    size_t i = 0;
+    for (i=0; i <= snek.taille; i++)
     {
         //if a snake body position is same as head position, return true (meaning end of game is logic true)
         if( (snek.tete.x) == (snek.pos[i].x) &&  (snek.tete.y) == (snek.pos[i].y) )
@@ -189,16 +166,12 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
     return FALSE;
 }
 
-/**
- * @brief Boucle principale du jeu.
- * 
- * @param param_Jeu - Structure des paramÃ¨tres du jeu.
- */
+
 void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 {
     int score = 0;
     system("cls");
-    Affichage_init_score();
+
 
     //Initialisation des flags de sortie
     boolean quit_flag = FALSE;
@@ -213,17 +186,34 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 
     init_jeu(&pom, &snek);
     affichage_stade(param_Jeu);
-    placer_pomme(&pom, param_Jeu.H_stade, param_Jeu.L_stade);
-
+    setBackgroundColor(16);
+    Affichage_init_score(param_Jeu);
     while (!quit_flag && !fin_jeu )
     {
-        Affichage_score(snek.taille, &score);
+        affichage_pomme(pom,param_Jeu);
+        if(snek.taille != snek.oldtaille)
+        {
+            setBackgroundColor(16);
+            Affichage_score(param_Jeu, snek.taille, &score);
+            snek.oldtaille = snek.taille;
+        }
         affichage_Jeu(snek, param_Jeu);
-        affichage_pomme(pom);
-        
-        //snek.direction = SP_Gestion_Clavier(100);
-        //gestion du clavier
-        direction = SP_Gestion_Clavier_with_buffer_time((time_t)((1/(float)param_Jeu.difficulte)*500));
+
+        switch (param_Jeu.difficulte)
+        {
+            case 1:
+                direction = SP_Gestion_Clavier_with_buffer_time(300);
+                break;
+            case 2:
+                direction = SP_Gestion_Clavier_with_buffer_time(200);
+                break;
+            case 3:
+                direction = SP_Gestion_Clavier_with_buffer_time(100);
+                break;
+            default:
+                direction = SP_Gestion_Clavier_with_buffer_time(1000);
+                break;
+        }
         if (direction != -1)
         {
             snek.direction = direction;
@@ -233,19 +223,20 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
 
         test_pomme(&snek, &pom, param_Jeu);
         fin_jeu = test_fin_jeu(snek, param_Jeu);
-        
+
+        //Gestion Jeu
 
     }
 
     if (quit_flag)
     {
-        //jeu abandonnï¿½
+        //jeu abandonné
     }
     else
     {
         printgameover();
         //enregistrer score
-        player.score = snek.taille;
+        player.score = score;
         //afficher score
         printf("\n\nVotre score est de %d\n", player.score);
         //enregistrer nom
@@ -253,16 +244,22 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
         scanf("%s", player.nom);
         //ecrire score dans fichier scores.txt
         saveplayerscore(player);
+
     }
+
+
+
 }
+
 
 /**
  * @brief Sauvegarde le score du joueur dans un fichier.
- * 
+ *
  * @param player - Structure du joueur contenant le nom et le score.
  */
 void saveplayerscore(TYPE_JOUEUR player)
 {
+
     FILE *score_file = fopen("scores.txt", "a");
     if (score_file != NULL) {
         fprintf(score_file, "Nom: %s  ", player.nom);
@@ -275,23 +272,27 @@ void saveplayerscore(TYPE_JOUEUR player)
 
 void printplayerscores()
 {
+    system("cls");
     FILE *score_file = fopen("scores.txt", "r");
-    if (score_file != NULL) 
+    if (score_file != NULL)
     {
         char line[256];
-        while (fgets(line, sizeof(line), score_file) != NULL) 
+        while (fgets(line, sizeof(line), score_file) != NULL)
         {
             printf("%s", line);
         }
         fclose(score_file);
-    } else 
+    } else
     {
         printf("Erreur: Impossible d'ouvrir le fichier des scores.\n");
     }
+    system("pause");
+    system("cls");
 }
 
 void printgameover()
 {
+    setBackgroundColor(BLACK);
     gotoxy(0,0);
     system("cls");
     ShowCursor(TRUE);
