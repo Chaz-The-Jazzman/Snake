@@ -3,3 +3,9 @@ Nom: Th‚o  Score: 8
 Nom: Th‚o  Score: 30
 Nom: Chaz  Score: 30
 Nom: Charlie  Score: 60
+Nom: chaz  Score: 120
+Nom: chaz  Score: 30
+Nom: ex  Score: 0
+Nom: ZU  Score: 30
+Nom: chaz  Score: 270
+Nom: chae  Score: 60

@@ -39,50 +39,6 @@ int SP_Gestion_Clavier(){
     return dir;
 }
 
-
-int SP_Gestion_Clavier_with_buffer_time(time_t buffer_time_ms)
-{
-    char direction;
-    int dir = -1;  // Default direction if no key is pressed
-    boolean exit_flag = FALSE;
-
-    clock_t start_time = clock();  // Record start time
-
-    // Wait for buffer time before taking the last inputted key
-    while (exit_flag == FALSE )
-        {
-        if ((clock() - start_time) > (buffer_time_ms * CLOCKS_PER_SEC) / 1000)
-            exit_flag = TRUE;
-        if (kbhit()) {
-            //printf("key pressed\n");
-            direction = (char)getkey();  // Get the last key pressed
-        }
-    }
-
-    // After buffer time, process the last key pressed
-    switch (direction)
-    {
-        case KEY_UP:
-            dir = HAUT;
-            break;
-        case KEY_DOWN:
-            dir = BAS;
-            break;
-        case KEY_LEFT:
-            dir = GAUCHE;
-            break;
-        case KEY_RIGHT:
-            dir = DROITE;
-            break;
-        default:
-            dir = -1;  // If no key pressed or invalid key
-            break;
-    }
-
-    return dir;  // Return the final direction
-}
-
-
 void calc_NextSnekPos(TYPE_SNAKE *snek)
 {
     //save new old head
@@ -199,7 +155,8 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
         }
         affichage_Jeu(snek, param_Jeu);
 
-        direction = SP_Gestion_Clavier_with_buffer_time((time_t)((1/(float)param_Jeu.difficulte)*500));
+        msleep((time_t)((1/(float)param_Jeu.difficulte)*200));
+        direction = SP_Gestion_Clavier();
         if (direction != -1)
         {
             snek.direction = direction;
