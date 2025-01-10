@@ -218,13 +218,13 @@
 	<windows.h>
 	<conio.h>
 
-1734593427 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\mylib.h
+1736336810 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\mylib.h
 	<stdio.h>
 	<string.h>
 	<windows.h>
 	<conio.h>
 
-1736155148 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_jeu.c
+1736441982 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_jeu.c
 	<stdio.h>
 	<time.h>
 	"myLib.h"
@@ -234,26 +234,27 @@
 	"SP_Gestion_parametres.h"
 	"SP_Affichage.h"
 
-1736148267 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_jeu.h
+1736184068 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_jeu.h
 	"mesTypes.h"
 
-1734599465 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\main.c
+1736353833 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\main.c
 	<stdio.h>
 	<stdlib.h>
 	"myLib.h"
 	"SP_GESTION_JEU.h"
 	"menu.h"
 
-1734595670 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\menu.h
+1736173488 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\menu.h
 	"mesTypes.h"
 
-1736155365 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\menu.c
+1736493491 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\menu.c
 	<stdio.h>
 	<time.h>
 	"myLib.h"
 	"mesTypes.h"
 	"SP_Gestion_parametres.h"
 	"SP_GESTION_JEU.h"
+	"mini_jeux.h"
 
 1734355047 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\def_access_variable.c
 	<stdio.h>
@@ -261,20 +262,40 @@
 	"myLib.h"
 	"mesTypes.h"
 
-1734602328 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\mestypes.h
+1736448414 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\mestypes.h
 
-1736155305 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_parametres.c
+1736448199 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_parametres.c
 	<stdio.h>
 	"mesTypes.h"
 	"myLib.h"
 
-1736150657 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_parametres.h
+1736493517 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_gestion_parametres.h
 
-1734604279 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_affichage.h
+1736493642 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_affichage.h
 	"mesTypes.h"
 
-1736155203 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_affichage.c
+1736367489 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\sp_affichage.c
 	<stdio.h>
 	"mesTypes.h"
 	"myLib.h"
+
+1736278129 c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\mini_jeux.h
+
+1736493255 source:c:\users\gto13\desktop\ingé\info\projet_snake_archive_eleve\mini_jeux.c
+	<stdio.h>
+	<string.h>
+	"myLib.h"
+	"mesTypes.h"
+	"menu.h"
+	"SP_GESTION_JEU.h"
+	"SP_Gestion_parametres.h"
+	"SP_Affichage.h"
+	<stdlib.h>
+	<windows.h>
+	<windows.h>
+	<stdio.h>
+	<windows.h>
+	<stdio.h>
+	<windows.h>
+	<stdio.h>
 

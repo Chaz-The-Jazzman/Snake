@@ -42,13 +42,14 @@ typedef struct {
    int direction;
    int taille;
    int oldtaille;
-
+   int is_invisible; // Nouveau : Flag d'invisibilité
+   int invisibility_timer;
 } TYPE_SNAKE;
 
 //******************
 // DONNEES POMME
 //******************
-typedef struct {
+ typedef struct {
    ST_POINT pos;
 } TYPE_POMME;
 
@@ -59,6 +60,45 @@ typedef struct {
      int speed_mod;
 } TYPE_SPEED_APPLE;
 
+typedef struct {
+    int is_active;
+    int has_appear;
+    int has_exploded;
+    int has_affected_snake;
+    int timer; // Temps avant explosion
+    int start_time;
+    ST_POINT pos;
+} TYPE_EXPLOSIVE_APPLE;
 
+typedef struct {
+    int is_active;
+    int has_been_eaten;
+    ST_POINT pos;
+} TYPE_TELEPORT_APPLE;
+
+typedef struct {
+    int is_active;
+    int has_been_eaten;
+    int timer; // Durée d'invisibilité
+    ST_POINT pos;
+} TYPE_INVISIBLE_APPLE;
+
+typedef struct {
+    char data[200][250]; // Circuit ASCII
+    int width;          // Largeur du circuit
+    int height;         // Hauteur du circuit
+} Circuit;
+
+typedef struct {
+    TYPE_SNAKE snake;   // Le serpent
+    int speed_multiplier; // Facteur de vitesse
+    int finished;   // Le joueur a terminé le circuit
+    int game_over;  // Le joueur a perdu
+} MarioKartGame;
+
+typedef struct {
+    int x;
+    int y;
+} Position;
 
 #endif // MESTYPES_H_INCLUDED

@@ -30,7 +30,7 @@
 #define RLUTIL_PRINT(st) printf("%s", st)
 
 #define FORME_TETE 79
-#define FORME_CORPS 42
+#define FORME_CORPS 254
 #define FORME_STADE 178
 #define FORME_POMME 153
 

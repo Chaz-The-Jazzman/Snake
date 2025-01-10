@@ -57,6 +57,10 @@
 			<Option link="1" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="mini_jeux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mini_jeux.h" />
 		<Unit filename="myLib.c">
 			<Option compilerVar="CC" />
 		</Unit>
