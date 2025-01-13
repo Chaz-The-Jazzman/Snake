@@ -6,3 +6,18 @@ Nom: Dorian  Score: 150
 Nom: Th‚o  Score: 0
 Nom: ch  Score: 810
 Nom: aa  Score: 240
+Nom: chaz  Score: 120
+Nom: chaz  Score: 360
+Nom: chaz  Score: 120
+Nom: chaz  Score: 30
+Nom: f  Score: 30
+Nom: f  Score: 0
+Nom: h  Score: 0
+Nom: close  Score: 0
+Nom: nd  Score: 0
+Nom: chaz  Score: 0
+Nom: chaz  Score: 30
+Nom: d  Score: 0
+Nom: chaz  Score: 3
+Nom: jojo  Score: 2
+Nom:    Score: 240

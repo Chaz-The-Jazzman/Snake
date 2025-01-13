@@ -6,26 +6,6 @@
 #include "SP_GESTION_JEU.h"
 #include "SP_Gestion_parametres.h"
 #include "SP_Affichage.h"
-/*===================================================================================
-/ Nom Sémantique : FONCTION SP_Gestion_Clavier
-
-/ Sémantique : Gère la détection des évènements clavier sur les touches de direction
-
-/ Paramètres :
-/ direction (OUT) - entier : Contient la direction sollicitée par l'utilisateur
-/ DROITE = 0 , GAUCHE = 1 , BAS = 2 , HAUT = 3 et -1 SINON
-/ Pré-condition : AUCUNE
-/ Post conditions : la direction vaut -1,0,1,2,3
-/ ====================================================================================
-/ Test : le chiffre renvoyé correspond à la direction appuyée
-/ ====================================================================================*/
-
-// Fonction de pause pour simuler un délai en millisecondes
-void pause(int milliseconds) {
-    clock_t start_time = clock(); // Temps de début
-    while (clock() < start_time + milliseconds * CLOCKS_PER_SEC / 1000);
-}
-
 
 int SP_Gestion_Clavier(TYPE_SNAKE snek){
     char direction ;
@@ -33,7 +13,7 @@ int SP_Gestion_Clavier(TYPE_SNAKE snek){
 
     if ( kbhit()) {
 
-    direction = getkey() ;
+    direction = (char)getkey() ;
     while (kbhit()) getkey();
 
     switch (direction){
@@ -67,7 +47,8 @@ float adjust_speed(int direction) {
 }
 
 int SP_Gestion_Clavier_with_buffer_time_2j(time_t buffer_time_ms, int *dir1, int *dir2, TYPE_SNAKE snek1,  TYPE_SNAKE snek2) {
-    char direction;
+    char direction2;
+    char direction1;
     boolean exit_flag = FALSE;
 
     clock_t start_time = clock();
@@ -78,20 +59,29 @@ int SP_Gestion_Clavier_with_buffer_time_2j(time_t buffer_time_ms, int *dir1, int
             exit_flag = TRUE;
         }
         if (kbhit()) {
-            direction = (char)getkey();
+            direction2 = direction1;
+            direction1 = (char)getkey();
         }
     }
 
     // Player 1 controls
-    switch (direction) {
+    switch (direction1) {
         case KEY_UP:    *dir1 = HAUT; break;
         case KEY_DOWN:  *dir1 = BAS; break;
         case KEY_LEFT:  *dir1 = GAUCHE; break;
         case KEY_RIGHT: *dir1 = DROITE; break;
+        case 'z': *dir2 = HAUT; break;
+        case 's': *dir2 = BAS; break;
+        case 'q': *dir2 = GAUCHE; break;
+        case 'd': *dir2 = DROITE; break;
     }
 
     // Player 2 controls
-    switch (direction) {
+    switch (direction2) {
+        case KEY_UP:    *dir1 = HAUT; break;
+        case KEY_DOWN:  *dir1 = BAS; break;
+        case KEY_LEFT:  *dir1 = GAUCHE; break;
+        case KEY_RIGHT: *dir1 = DROITE; break;
         case 'z': *dir2 = HAUT; break;
         case 's': *dir2 = BAS; break;
         case 'q': *dir2 = GAUCHE; break;
@@ -117,6 +107,7 @@ int SP_Gestion_Clavier_with_buffer_time_2j(time_t buffer_time_ms, int *dir1, int
     }
     return 0;
 }
+
 void calc_NextSnekPos(TYPE_SNAKE *snek)
 {
     //save new old head
@@ -197,22 +188,22 @@ void gestion_speed_apple(int * speed_multiplyer, TYPE_SPEED_APPLE * speed_apple,
 }
 
 void gestion_invisible_apple(TYPE_SNAKE *snake, TYPE_INVISIBLE_APPLE *invisible_apple, TYPE_PARAM_JEU param_Jeu) {
-    // Si la taille du serpent n'est pas un multiple de 3, désactiver la pomme
+    // Si la taille du serpent n'est pas un multiple de 3, dï¿½sactiver la pomme
     if (snake->taille % 3 != 0 && !invisible_apple->is_active) {
         invisible_apple->is_active = FALSE;
         invisible_apple->has_been_eaten = FALSE;
     }
 
-    // Activer une nouvelle pomme si les conditions sont réunies
+    // Activer une nouvelle pomme si les conditions sont rï¿½unies
     if (snake->taille % 3 == 0 && !invisible_apple->is_active && !invisible_apple->has_been_eaten) {
         invisible_apple->is_active = TRUE;
         invisible_apple->has_been_eaten = FALSE;
-        invisible_apple->timer = generate_random_number(20, 40); // Durée d'invisibilité en itérations
+        invisible_apple->timer = generate_random_number(20, 40); // Durï¿½e d'invisibilitï¿½ en itï¿½rations
         invisible_apple->pos.x = generate_random_number(2, param_Jeu.L_stade - 2);
         invisible_apple->pos.y = generate_random_number(2, param_Jeu.H_stade - 2);
     }
 
-    // Si le serpent mange la pomme d'invisibilité
+    // Si le serpent mange la pomme d'invisibilitï¿½
     if (invisible_apple->is_active &&
         snake->tete.x == invisible_apple->pos.x &&
         snake->tete.y == invisible_apple->pos.y) {
@@ -220,30 +211,30 @@ void gestion_invisible_apple(TYPE_SNAKE *snake, TYPE_INVISIBLE_APPLE *invisible_
         invisible_apple->is_active = FALSE;
         invisible_apple->has_been_eaten = TRUE;
 
-        // Activer l'invisibilité
+        // Activer l'invisibilitï¿½
         snake->is_invisible = TRUE;
         snake->invisibility_timer = invisible_apple->timer;
     }
 
-    // Gérer l'invisibilité active
+    // Gï¿½rer l'invisibilitï¿½ active
     if (snake->is_invisible) {
         if (snake->invisibility_timer > 0) {
             snake->invisibility_timer--;
         } else {
-            snake->is_invisible = FALSE; // Fin de l'invisibilité
+            snake->is_invisible = FALSE; // Fin de l'invisibilitï¿½
         }
     }
 }
 
 
 void gestion_teleport_apple(TYPE_SNAKE *snake, TYPE_TELEPORT_APPLE *teleport_apple, TYPE_PARAM_JEU param_Jeu) {
-    // Si la taille du serpent n'est pas un multiple de 5, désactiver la pomme
+    // Si la taille du serpent n'est pas un multiple de 2, dï¿½sactiver la pomme
     if (snake->taille %2 != 0 && !teleport_apple->is_active) {
         teleport_apple->is_active = FALSE;
         teleport_apple->has_been_eaten = FALSE;
     }
 
-    // Activer une nouvelle pomme si les conditions sont réunies
+    // Activer une nouvelle pomme si les conditions sont rï¿½unies
     if (snake->taille % 2 == 0 && !teleport_apple->is_active && !teleport_apple->has_been_eaten ) {
         teleport_apple->is_active = TRUE;
         teleport_apple->has_been_eaten = FALSE;
@@ -251,7 +242,7 @@ void gestion_teleport_apple(TYPE_SNAKE *snake, TYPE_TELEPORT_APPLE *teleport_app
         teleport_apple->pos.y = generate_random_number(2, param_Jeu.H_stade - 2);
     }
 
-    // Si le serpent mange la pomme téléporteuse
+    // Si le serpent mange la pomme tï¿½lï¿½porteuse
     if (teleport_apple->is_active &&
         snake->tete.x == teleport_apple->pos.x &&
         snake->tete.y == teleport_apple->pos.y) {
@@ -270,17 +261,28 @@ void gestion_teleport_apple(TYPE_SNAKE *snake, TYPE_TELEPORT_APPLE *teleport_app
         gotoxy(teleport_apple->pos.x, teleport_apple->pos.y);
         printf(" ");
 
-        // Téléporte la tête à une position aléatoire
-        int new_x = generate_random_number(10, param_Jeu.L_stade - 10);
-        int new_y = generate_random_number(10, param_Jeu.H_stade - 10);
+        // Tï¿½lï¿½porte la tï¿½te ï¿½ une position alï¿½atoire non Ã©gal Ã  une position de la queue     
+        int new_x = -1;
+        int new_y = -1;
+        while (new_x == -1 || new_y == -1) {
+            new_x = generate_random_number(2, param_Jeu.L_stade - 2);
+            new_y = generate_random_number(2, param_Jeu.H_stade - 2);
+            for (int i = 0; i < snake->taille; i++) {
+                if (new_x == snake->pos[i].x && new_y == snake->pos[i].y) {
+                    new_x = -1;
+                    new_y = -1;
+                    break;
+                }
+            }
+        }
         snake->tete.x = new_x;
         snake->tete.y = new_y;
 
-        // Réinitialise tous les segments du serpent à la nouvelle position
-        for (int i = 0; i < snake->taille; i++) {
-            snake->pos[i].x = new_x;
-            snake->pos[i].y = new_y-i;
-        }
+        // // Rï¿½initialise tous les segments du serpent ï¿½ la nouvelle position
+        // for (int i = 0; i < snake->taille; i++) {
+        //     snake->pos[i].x = new_x;
+        //     snake->pos[i].y = new_y-i;
+        // }
 
         teleport_apple->is_active = FALSE;
         teleport_apple->has_been_eaten = TRUE;
@@ -298,7 +300,7 @@ void gestion_explosive_apple(TYPE_SNAKE *snake, TYPE_EXPLOSIVE_APPLE *explosive_
     }
 
     if (snake->taille % 3 == 0 && !explosive_apple->is_active && !explosive_apple->has_appear) {
-        // Effacer la bombe de l'écran
+        // Effacer la bombe de l'ï¿½cran
             gotoxy(explosive_apple->pos.x, explosive_apple->pos.y);
             printf(" ");
             explosive_apple->is_active = FALSE;
@@ -326,7 +328,7 @@ void gestion_explosive_apple(TYPE_SNAKE *snake, TYPE_EXPLOSIVE_APPLE *explosive_
         }
         else
         {
-            // Effacer la bombe de l'écran
+            // Effacer la bombe de l'ï¿½cran
             gotoxy(explosive_apple->pos.x, explosive_apple->pos.y);
             printf(" ");
             explosive_apple->is_active = FALSE;
@@ -342,7 +344,7 @@ void gestion_explosive_apple(TYPE_SNAKE *snake, TYPE_EXPLOSIVE_APPLE *explosive_
         }
     }*/
     if (explosive_apple->is_active) {
-        // Décrémenter le timer et vérifier l'explosion
+        // Dï¿½crï¿½menter le timer et vï¿½rifier l'explosion
         if (--explosive_apple->timer <= 0 && !explosive_apple->has_exploded) {
             explosive_apple->has_exploded = TRUE;
 
@@ -359,31 +361,31 @@ void gestion_explosive_apple(TYPE_SNAKE *snake, TYPE_EXPLOSIVE_APPLE *explosive_
                     }
                     }
                 }
-                pause(70); // Pause entre les étapes de l'explosion
+                msleep(70); // Pause entre les ï¿½tapes de l'explosion
             }
 
-            // Vérifier si le serpent est à proximité
+            // Vï¿½rifier si le serpent est ï¿½ proximitï¿½
             if (abs(snake->tete.x - explosive_apple->pos.x) <= 2 &&
                 abs(snake->tete.y - explosive_apple->pos.y) <= 2) {
-                snake->taille = (snake->taille > 2) ? snake->taille -2 : -1; // Réduire la taille
+                snake->taille = (snake->taille > 2) ? snake->taille -2 : -1; // Rï¿½duire la taille
             }
 
             explosive_apple->is_active = FALSE;
         }
     }
-    // Si la bombe a explosé, gérer l'effet sur le serpent
+    // Si la bombe a explosï¿½, gï¿½rer l'effet sur le serpent
     if (explosive_apple->has_exploded) {
         setBackgroundColor(param_Jeu.couleur_stade);
         int in_radius = abs(snake->tete.x - explosive_apple->pos.x) <= 2 &&
                         abs(snake->tete.y - explosive_apple->pos.y) <= 2;
 
         if (in_radius) {
-            // Réduire la taille du serpent de 1 segment pour chaque entrée dans le rayon
+            // Rï¿½duire la taille du serpent de 1 segment pour chaque entrï¿½e dans le rayon
             if (snake->taille > 1) {
                 // Effacer la queue du serpent
                 gotoxy(snake->pos[snake->taille - 1].x, snake->pos[snake->taille - 1].y);
                 printf(" ");
-                snake->taille--; // Réduire la taille
+                snake->taille--; // Rï¿½duire la taille
             }
         }
     }
@@ -399,12 +401,53 @@ boolean test_fin_jeu(TYPE_SNAKE snek, TYPE_PARAM_JEU param_Jeu)
     }
 
     //loop over all snake positions and check for collision
-    size_t i = 0;
-    for (i=0; i <= snek.taille; i++)
+    for (size_t i=0; i <= (size_t)snek.taille; i++)
     {
         //if a snake body position is same as head position, return true (meaning end of game is logic true)
         if( (snek.tete.x) == (snek.pos[i].x) &&  (snek.tete.y) == (snek.pos[i].y) )
             return TRUE;
+    }
+
+    //otherwise return false
+    return FALSE;
+}
+
+int test_fin_jeu_2j(TYPE_SNAKE snake1, TYPE_SNAKE snake2, TYPE_PARAM_JEU param_Jeu, int *snake1_lose, int *snake2lose)
+{
+    if ((snake1.tete.x <= 1) || (snake1.tete.x >= param_Jeu.L_stade) || (snake1.tete.y <= 1) || (snake1.tete.y >= param_Jeu.H_stade)  )
+    {
+        //out of bounds
+        *snake1_lose = TRUE;
+        return TRUE;
+    }
+
+    //loop over all snake positions and check for collision
+    for (size_t i=0; i <= (size_t)snake1.taille; i++)
+    {
+        //if a snake body position is same as head position, return true (meaning end of game is logic true)
+        if( (snake1.tete.x) == (snake1.pos[i].x) &&  (snake1.tete.y) == (snake1.pos[i].y) )
+        {
+            *snake1_lose = TRUE;
+            return TRUE;
+        }
+    }
+
+    if ((snake2.tete.x <= 1) || (snake2.tete.x >= param_Jeu.L_stade) || (snake2.tete.y <= 1) || (snake2.tete.y >= param_Jeu.H_stade)  )
+    {
+        //out of bounds
+        *snake2lose = TRUE;
+        return TRUE;
+    }
+
+    //loop over all snake positions and check for collision
+    for (size_t i=0; i <= (size_t)snake2.taille; i++)
+    {
+        //if a snake body position is same as head position, return true (meaning end of game is logic true)
+        if( (snake2.tete.x) == (snake2.pos[i].x) &&  (snake2.tete.y) == (snake2.pos[i].y) )
+        {
+            *snake2lose = TRUE;
+            return TRUE;
+        }
     }
 
     //otherwise return false
@@ -419,6 +462,7 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
     int speed_multiplyer = 100;
     int direction = -1;
     system("cls");
+    affichage_321GO();
 
     //initialisation du jeu
     TYPE_SNAKE snek;
@@ -449,7 +493,7 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
             snek.oldtaille = snek.taille;
         }
         float speed = adjust_speed(snek.direction);
-        msleep((time_t)((2*speed*speed_multiplyer/(float)param_Jeu.difficulte)));
+        msleep((unsigned int)((2*speed*(float)speed_multiplyer/(float)param_Jeu.difficulte)));
         direction = SP_Gestion_Clavier(snek);
 
         if (direction != -1)  snek.direction = direction;
@@ -465,7 +509,7 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
     }
     if (quit_flag)
     {
-        //jeu abandonné
+        //jeu abandonnï¿½
     }
     else
     {
@@ -475,29 +519,61 @@ void Game_Loop(TYPE_PARAM_JEU param_Jeu)
         //afficher score
         printf("\n\nVotre score est de %d\n", player.score);
         //enregistrer nom
-        printf("Entrez votre nom: ");
-        scanf("%s", player.nom);
-        //ecrire score dans fichier scores.txt
-        saveplayerscore(player);
+        ShowCursor(TRUE);
+        printf("Entrez votre nom (ou appuyez sur Entrer pour ignorer): ");
+        fgets(player.nom, sizeof(player.nom), stdin);
+        ShowCursor(FALSE);
+        // VÃ©rifier si un nom a Ã©tÃ© entrÃ©
+        if (player.nom[0] != '\n') {
+            // Retirer le caractÃ¨re de nouvelle ligne
+            player.nom[strcspn(player.nom, "\n")] = 0;
+            //ecrire score dans fichier scores.txt
+            saveplayerscore(player);
+        } else {
+            printf("Score non enregistrÃ©.\n");
+        }
     }
 }
 
 void Game_Loop_2j(TYPE_PARAM_JEU param_Jeu) {
-    int score1 = 0, score2 = 0;
-    boolean quit_flag = FALSE, fin_jeu = FALSE;
+
+    int fin_jeu = FALSE;
 
     int direction1 = DROITE, direction2 = GAUCHE;
+
+    int snake1_lose = 0;
+    int snake2_lose = 0;
 
     // Initialize snakes and pomme
     TYPE_SNAKE snek1, snek2;
     TYPE_POMME pom;
+    TYPE_POMME pom2;
+    TYPE_JOUEUR player1, player2;
+
+    // Ask for player names
+    ShowCursor(TRUE);
+    printf("Entrez le nom du joueur 1: ");
+    fgets(player1.nom, sizeof(player1.nom), stdin);
+    player1.nom[strcspn(player1.nom, "\n")] = 0; // Remove newline character
+
+    printf("Entrez le nom du joueur 2: ");
+    fgets(player2.nom, sizeof(player2.nom), stdin);
+    player2.nom[strcspn(player2.nom, "\n")] = 0; // Remove newline character
+    ShowCursor(FALSE);
+
+    system("cls");
+
+    
     init_jeu_2j(&pom, &snek1, &snek2);
+    init_pom_2(&pom2);
 
     affichage_stade(param_Jeu);
 
-    while (!quit_flag && !fin_jeu) {
+    while (!fin_jeu) {
         affichage_pomme(pom, param_Jeu);
-        affichage_Jeu_2j(snek1, snek2, param_Jeu);
+        affichage_pomme(pom2, param_Jeu);
+
+        affichage_Jeu_2j(snek1, snek2, &param_Jeu);
 
         // Get inputs for both players
         SP_Gestion_Clavier_with_buffer_time_2j((time_t)((1/(float)param_Jeu.difficulte)*200), &direction1, &direction2, snek1, snek2);
@@ -512,25 +588,22 @@ void Game_Loop_2j(TYPE_PARAM_JEU param_Jeu) {
         // Check collisions with pomme
         test_pomme(&snek1, &pom, param_Jeu);
         test_pomme(&snek2, &pom, param_Jeu);
+        test_pomme(&snek1, &pom2, param_Jeu);
+        test_pomme(&snek2, &pom2, param_Jeu);
 
         // Check collisions for both snakes
-        fin_jeu = test_fin_jeu(snek1, param_Jeu) || test_fin_jeu(snek2, param_Jeu);
-
-        // Collision detection between snakes
-        for (int i = 0; i < snek2.taille; i++) {
-            if (snek1.tete.x == snek2.pos[i].x && snek1.tete.y == snek2.pos[i].y) {
-                fin_jeu = TRUE;
-            }
-        }
-        for (int i = 0; i < snek1.taille; i++) {
-            if (snek2.tete.x == snek1.pos[i].x && snek2.tete.y == snek1.pos[i].y) {
-                fin_jeu = TRUE;
-            }
-        }
+        fin_jeu = test_fin_jeu_2j(snek1, snek2, param_Jeu, &snake1_lose, &snake2_lose);
     }
-    printgameover();
-    printf("Player 1 Score: %d\n", score1);
-    printf("Player 2 Score: %d\n", score2);
+    printWinner(snake1_lose, param_Jeu);
+    // add winner screen
+    if (snake1_lose) {
+        printf("VICTOIRE POUR %s\n\n", player2.nom);
+    } else if (snake2_lose) {
+        printf("VICTOIRE POUR %s!\n\n", player1.nom);
+    }
+
+    msleep(2000);
+    system("pause");
 }
 
 /**
@@ -540,7 +613,6 @@ void Game_Loop_2j(TYPE_PARAM_JEU param_Jeu) {
  */
 void saveplayerscore(TYPE_JOUEUR player)
 {
-
     FILE *score_file = fopen("scores.txt", "a");
     if (score_file != NULL) {
         fprintf(score_file, "Nom: %s  ", player.nom);
@@ -584,10 +656,52 @@ void printgameover()
     if (f == NULL) {
         printf("Erreur lors de l'ouverture du fichier.\n");
     }
+    int line_number = 0;
     while (fgets(ligne, sizeof(ligne), f) != NULL) {
-        printf("%s", ligne);
+        line_number++;
+        if (line_number >= 1 && line_number <= 8) {
+            printf("%s", ligne);
+        }
     }
     printf("\n\n");
+    fclose(f);
     system("pause");
+}
+
+void printWinner(int snake1lose, TYPE_PARAM_JEU param_Jeu)
+{
+    int line_min = 0;
+    int line_max = 0;
+    int color;
+    if (snake1lose == 1) {
+        line_min = 8;
+        line_max = 32;
+        color = param_Jeu.couleur_snake2;
+    } else {
+        line_min = 32;
+        line_max = 56;
+        color = param_Jeu.couleur_snake;
+    }
+
+    setBackgroundColor(BLACK);
+    gotoxy(0,0);
+    system("cls");
+    
+    setColor(color);
+
+    char ligne[256];
+    FILE *f;
+    f = fopen("Game_Over_Art.txt", "r");
+    if (f == NULL) {
+        printf("Erreur lors de l'ouverture du fichier.\n");
+    }
+    int line_number = 0;
+    while (fgets(ligne, sizeof(ligne), f) != NULL) {
+        line_number++;
+        if (line_number >= line_min && line_number <= line_max) {
+            printf("%s", ligne);
+        }
+    }
+    printf("\n\n");
     fclose(f);
 }

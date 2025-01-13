@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "mesTypes.h"
 #include "myLib.h"
+#include "menu.h"
+#include "mini_jeux.h"
+
 void init_global(TYPE_PARAM_JEU *param_jeu)
 {
      param_jeu->couleur_stade = 10;
@@ -42,11 +45,11 @@ void init_mario_kart(TYPE_SNAKE *snake, MarioKartGame *game, Circuit *circuit) {
     snake->tete.y = 20;
 
     for (int i = 0; i < snake->taille; i++) {
-        snake->pos[i].x = snake->tete.x - i; // Corps aligné horizontalement
+        snake->pos[i].x = snake->tete.x - i; // Corps alignï¿½ horizontalement
         snake->pos[i].y = snake->tete.y;
     }
 
-    // Initialiser les paramètres du jeu
+    // Initialiser les paramï¿½tres du jeu
     game->snake = *snake;
     game->speed_multiplier = 300;
     game->finished = FALSE;
@@ -56,6 +59,11 @@ void init_mario_kart(TYPE_SNAKE *snake, MarioKartGame *game, Circuit *circuit) {
     charger_circuit(circuit, "mario.txt");
 }
 
+void init_pom_2(TYPE_POMME* pomme) {
+    // Initialize pomme2
+    pomme->pos.x = 20;
+    pomme->pos.y = 14;
+}
 
 
 void init_jeu_2j(TYPE_POMME* pomme, TYPE_SNAKE* snake1, TYPE_SNAKE* snake2) {

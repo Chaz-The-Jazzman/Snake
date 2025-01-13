@@ -17,6 +17,7 @@ typedef struct {
 typedef struct {
      int couleur_stade;
      int couleur_snake;
+     int couleur_snake2;
      int difficulte;
      int H_stade;
      int L_stade;
@@ -42,7 +43,7 @@ typedef struct {
    int direction;
    int taille;
    int oldtaille;
-   int is_invisible; // Nouveau : Flag d'invisibilité
+   int is_invisible; // Nouveau : Flag d'invisibilitï¿½
    int invisibility_timer;
 } TYPE_SNAKE;
 
@@ -79,7 +80,7 @@ typedef struct {
 typedef struct {
     int is_active;
     int has_been_eaten;
-    int timer; // Durée d'invisibilité
+    int timer; // Durï¿½e d'invisibilitï¿½
     ST_POINT pos;
 } TYPE_INVISIBLE_APPLE;
 
@@ -92,7 +93,7 @@ typedef struct {
 typedef struct {
     TYPE_SNAKE snake;   // Le serpent
     int speed_multiplier; // Facteur de vitesse
-    int finished;   // Le joueur a terminé le circuit
+    int finished;   // Le joueur a terminï¿½ le circuit
     int game_over;  // Le joueur a perdu
 } MarioKartGame;
 
